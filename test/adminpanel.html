@@ -1,0 +1,635 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>Admin Dashboard - Online Voting</title>
+  <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.1/css/all.min.css" />
+  <style>
+    :root {
+      --bg: #f3f4f8;
+      --sidebar: #111827;
+      --card: #ffffff;
+      --primary: #4f46e5;
+      --accent: #10b981;
+      --danger: #ef4444;
+      --border-soft: #e5e7eb;
+      --text-main: #111827;
+      --text-muted: #6b7280;
+    }
+
+    * {
+      margin: 0;
+      padding: 0;
+      box-sizing: border-box;
+      font-family: system-ui, -apple-system, BlinkMacSystemFont, "Segoe UI", sans-serif;
+    }
+
+    body {
+      background: var(--bg);
+      color: var(--text-main);
+      min-height: 100vh;
+      display: flex;
+    }
+
+    /* Sidebar */
+    .sidebar {
+      width: 220px;
+      background: var(--sidebar);
+      color: #e5e7eb;
+      padding: 20px 18px;
+      display: flex;
+      flex-direction: column;
+      gap: 20px;
+    }
+
+    .brand {
+      display: flex;
+      align-items: center;
+      gap: 10px;
+      margin-bottom: 10px;
+    }
+
+    .brand-icon {
+      width: 32px;
+      height: 32px;
+      border-radius: 999px;
+      background: rgba(255, 255, 255, 0.08);
+      display: flex;
+      align-items: center;
+      justify-content: center;
+    }
+
+    .brand-title {
+      font-size: 1.05rem;
+      font-weight: 700;
+      letter-spacing: 0.02em;
+    }
+
+    .side-section-title {
+      font-size: 0.75rem;
+      text-transform: uppercase;
+      letter-spacing: 0.12em;
+      color: #9ca3af;
+      margin-top: 8px;
+      margin-bottom: 4px;
+    }
+
+    .nav-list {
+      list-style: none;
+      display: flex;
+      flex-direction: column;
+      gap: 4px;
+    }
+
+    .nav-item {
+      padding: 7px 10px;
+      border-radius: 8px;
+      font-size: 0.85rem;
+      display: flex;
+      align-items: center;
+      gap: 8px;
+      cursor: pointer;
+      color: #d1d5db;
+    }
+
+    .nav-item.active {
+      background: rgba(255, 255, 255, 0.08);
+      color: #ffffff;
+    }
+
+    .nav-item a {
+      color: inherit;
+      text-decoration: none;
+      flex: 1;
+    }
+
+    .sidebar-footer {
+      margin-top: auto;
+      font-size: 0.75rem;
+      color: #9ca3af;
+    }
+
+    /* Main layout */
+    .main {
+      flex: 1;
+      display: flex;
+      flex-direction: column;
+      min-width: 0;
+    }
+
+    .topbar {
+      height: 60px;
+      background: #ffffff;
+      border-bottom: 1px solid var(--border-soft);
+      display: flex;
+      align-items: center;
+      justify-content: space-between;
+      padding: 0 20px;
+    }
+
+    .topbar-left h1 {
+      font-size: 1.2rem;
+      font-weight: 600;
+    }
+
+    .topbar-left span {
+      font-size: 0.8rem;
+      color: var(--text-muted);
+    }
+
+    .topbar-actions {
+      display: flex;
+      align-items: center;
+      gap: 10px;
+      font-size: 0.8rem;
+    }
+
+    .topbar-actions a,
+    .topbar-actions button {
+      border-radius: 999px;
+      border: 1px solid var(--border-soft);
+      padding: 6px 11px;
+      background: #ffffff;
+      cursor: pointer;
+      display: inline-flex;
+      align-items: center;
+      gap: 6px;
+      font-size: 0.78rem;
+      color: var(--text-muted);
+      text-decoration: none;
+    }
+
+    .topbar-actions .primary {
+      background: var(--primary);
+      color: #ffffff;
+      border-color: transparent;
+    }
+
+    .avatar {
+      width: 30px;
+      height: 30px;
+      border-radius: 999px;
+      background: #e5e7eb;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      font-size: 0.9rem;
+      font-weight: 600;
+      color: #4b5563;
+    }
+
+    .content {
+      padding: 20px;
+      display: flex;
+      flex-direction: column;
+      gap: 18px;
+    }
+
+    /* KPI row */
+    .kpi-row {
+      display: grid;
+      grid-template-columns: repeat(4, minmax(0, 1fr));
+      gap: 12px;
+    }
+
+    .kpi {
+      background: var(--card);
+      border-radius: 10px;
+      padding: 12px 14px;
+      border: 1px solid var(--border-soft);
+      display: flex;
+      flex-direction: column;
+      gap: 4px;
+      font-size: 0.85rem;
+    }
+
+    .kpi-label {
+      text-transform: uppercase;
+      letter-spacing: 0.08em;
+      color: var(--text-muted);
+      font-size: 0.7rem;
+    }
+
+    .kpi-value {
+      font-size: 1.2rem;
+      font-weight: 700;
+      display: flex;
+      align-items: baseline;
+      gap: 4px;
+    }
+
+    .kpi-chip {
+      font-size: 0.75rem;
+      border-radius: 999px;
+      padding: 2px 7px;
+      background: #ecfdf3;
+      color: #15803d;
+      font-weight: 600;
+    }
+
+    /* Main grid */
+    .grid-main {
+      display: grid;
+      grid-template-columns: 2fr 1.2fr;
+      gap: 16px;
+      align-items: flex-start;
+    }
+
+    .card {
+      background: var(--card);
+      border-radius: 12px;
+      border: 1px solid var(--border-soft);
+      padding: 15px 15px 12px;
+    }
+
+    .card-header {
+      display: flex;
+      justify-content: space-between;
+      align-items: center;
+      margin-bottom: 8px;
+    }
+
+    .card-title {
+      font-size: 0.95rem;
+      font-weight: 600;
+    }
+
+    .card-sub {
+      font-size: 0.8rem;
+      color: var(--text-muted);
+    }
+
+    .chip-soft {
+      font-size: 0.75rem;
+      border-radius: 999px;
+      padding: 3px 9px;
+      background: #eef2ff;
+      color: #3730a3;
+      font-weight: 600;
+      display: inline-flex;
+      align-items: center;
+      gap: 5px;
+    }
+
+    /* Table */
+    table {
+      width: 100%;
+      border-collapse: collapse;
+      margin-top: 8px;
+      font-size: 0.85rem;
+    }
+
+    thead {
+      background: #f9fafb;
+    }
+
+    th,
+    td {
+      padding: 8px 6px;
+      text-align: left;
+    }
+
+    th {
+      font-size: 0.75rem;
+      color: var(--text-muted);
+      text-transform: uppercase;
+      letter-spacing: 0.08em;
+      border-bottom: 1px solid var(--border-soft);
+    }
+
+    tbody tr:not(:last-child) td {
+      border-bottom: 1px solid #f3f4f6;
+    }
+
+    .party-pill {
+      display: inline-flex;
+      align-items: center;
+      gap: 6px;
+      padding: 3px 8px;
+      border-radius: 999px;
+      background: #eff6ff;
+      color: #1d4ed8;
+      font-size: 0.8rem;
+      font-weight: 500;
+    }
+
+    .rank-dot {
+      width: 18px;
+      height: 18px;
+      border-radius: 999px;
+      background: #e5e7eb;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      font-size: 0.7rem;
+      font-weight: 600;
+      color: #4b5563;
+    }
+
+    .rank-dot.first {
+      background: #fbbf24;
+      color: #92400e;
+    }
+
+    .vote-badge {
+      padding: 2px 7px;
+      border-radius: 999px;
+      border: 1px solid var(--border-soft);
+      font-size: 0.75rem;
+      color: var(--text-muted);
+    }
+
+    .actions button {
+      border-radius: 999px;
+      border: 1px solid var(--border-soft);
+      padding: 3px 7px;
+      font-size: 0.75rem;
+      background: #fff;
+      cursor: pointer;
+      display: inline-flex;
+      align-items: center;
+      gap: 4px;
+      margin-left: 4px;
+    }
+
+    .actions button.danger {
+      border-color: transparent;
+      background: #fee2e2;
+      color: #b91c1c;
+    }
+
+    /* Side cards */
+    .metric-row {
+      display: flex;
+      flex-direction: column;
+      gap: 10px;
+    }
+
+    .metric-item {
+      padding: 8px 8px;
+      border-radius: 10px;
+      background: #f9fafb;
+      display: flex;
+      justify-content: space-between;
+      align-items: center;
+      font-size: 0.8rem;
+    }
+
+    .metric-item span:last-child {
+      font-weight: 600;
+    }
+
+    .hint {
+      margin-top: 8px;
+      font-size: 0.75rem;
+      color: var(--text-muted);
+    }
+
+    /* Responsive */
+    @media (max-width: 1024px) {
+      .sidebar {
+        display: none;
+      }
+      .grid-main {
+        grid-template-columns: 1fr;
+      }
+      .kpi-row {
+        grid-template-columns: repeat(2, minmax(0, 1fr));
+      }
+    }
+
+    @media (max-width: 640px) {
+      .kpi-row {
+        grid-template-columns: 1fr;
+      }
+      .topbar {
+        flex-direction: column;
+        align-items: flex-start;
+        gap: 6px;
+        height: auto;
+        padding: 10px 14px;
+      }
+      .content {
+        padding: 14px;
+      }
+    }
+  </style>
+</head>
+<body>
+  <aside class="sidebar">
+    <div>
+      <div class="brand">
+        <div class="brand-icon">
+          <i class="fa-solid fa-shield-halved"></i>
+        </div>
+        <div class="brand-title">OVS Admin</div>
+      </div>
+
+      <div class="side-section-title">Overview</div>
+      <ul class="nav-list">
+        <li class="nav-item active">
+          <i class="fa-solid fa-gauge-high"></i>
+          <span>Dashboard</span>
+        </li>
+        <li class="nav-item">
+          <i class="fa-solid fa-check-to-slot"></i>
+          <a href="vote.html">Voting Page</a>
+        </li>
+        <li class="nav-item">
+          <i class="fa-solid fa-chart-column"></i>
+          <a href="results.html">Public Results</a>
+        </li>
+      </ul>
+    </div>
+
+    <div class="sidebar-footer">
+      Read / write access: admin can adjust counts and reset votes here.
+    </div>
+  </aside>
+
+  <main class="main">
+    <header class="topbar">
+      <div class="topbar-left">
+        <h1>Election Admin Dashboard</h1>
+        <span>Monitor and manage live vote counts</span>
+      </div>
+      <div class="topbar-actions">
+        <a href="results.html"><i class="fa-solid fa-up-right-from-square"></i> View Public Site</a>
+        <button type="button" class="primary" onclick="resetAllVotesConfirm()">
+          <i class="fa-solid fa-rotate"></i> Reset All Votes
+        </button>
+        <div class="avatar">AD</div>
+      </div>
+    </header>
+
+    <section class="content">
+      <!-- KPIs -->
+      <div class="kpi-row">
+        <div class="kpi">
+          <div class="kpi-label">Total Votes</div>
+          <div class="kpi-value">
+            <span id="kpi-total">0</span>
+          </div>
+        </div>
+        <div class="kpi">
+          <div class="kpi-label">Leading Party</div>
+          <div class="kpi-value">
+            <span id="kpi-leader">–</span>
+          </div>
+        </div>
+        <div class="kpi">
+          <div class="kpi-label">Max Votes (Single Party)</div>
+          <div class="kpi-value">
+            <span id="kpi-max">0</span>
+          </div>
+        </div>
+        <div class="kpi">
+          <div class="kpi-label">Parties with Votes</div>
+          <div class="kpi-value">
+            <span id="kpi-active">0</span>
+          </div>
+        </div>
+      </div>
+
+      <!-- Main grid -->
+      <div class="grid-main">
+        <!-- Party management -->
+        <div class="card">
+          <div class="card-header">
+            <div>
+              <div class="card-title">Party-wise Control</div>
+              <div class="card-sub">Admin can adjust votes or clear specific parties here.</div>
+            </div>
+            <div class="chip-soft">
+              <i class="fa-solid fa-layer-group"></i>
+              Live
+            </div>
+          </div>
+
+          <table>
+            <thead>
+              <tr>
+                <th>Party</th>
+                <th style="width: 90px;">Votes</th>
+                <th style="width: 140px;">Quick Adjust</th>
+                <th style="width: 120px;">Actions</th>
+              </tr>
+            </thead>
+            <tbody id="admin-body">
+              <!-- rows via JS -->
+            </tbody>
+          </table>
+        </div>
+
+        <!-- Metrics / summary -->
+        <div class="card">
+          <div class="card-header">
+            <div class="card-title">Summary Metrics</div>
+          </div>
+          <div class="metric-row" id="metric-row">
+            <!-- filled by JS -->
+          </div>
+          <p class="hint">
+            Tip: This dashboard has full control. Public results page is read‑only for voters.
+          </p>
+        </div>
+      </div>
+    </section>
+  </main>
+
+  <script src="votes.js"></script>
+  <script>
+    function loadAdminDashboard() {
+      const rows = getAllVotesSorted();
+      const total = rows.reduce((sum, r) => sum + r.votes, 0);
+      const active = rows.filter(r => r.votes > 0).length;
+      const leader = rows[0];
+      const maxVotes = leader ? leader.votes : 0;
+
+      document.getElementById("kpi-total").textContent = total;
+      document.getElementById("kpi-active").textContent = active;
+      document.getElementById("kpi-leader").textContent =
+        leader && leader.votes > 0 ? leader.party : "–";
+      document.getElementById("kpi-max").textContent = maxVotes;
+
+      const tbody = document.getElementById("admin-body");
+      tbody.innerHTML = "";
+
+      rows.forEach((row, index) => {
+        const tr = document.createElement("tr");
+        tr.innerHTML = `
+          <td>
+            <span class="party-pill">
+              <span class="rank-dot ${index === 0 ? "first" : ""}">${index + 1}</span>
+              ${row.party}
+            </span>
+          </td>
+          <td>
+            <span class="vote-badge" id="badge-${row.party.replace(/\\s+/g, "_")}">${row.votes}</span>
+          </td>
+          <td class="actions">
+            <button type="button" onclick="adjustVote('${row.party}', 1)"><i class="fa-solid fa-plus"></i> +1</button>
+            <button type="button" onclick="adjustVote('${row.party}', -1)"><i class="fa-solid fa-minus"></i> -1</button>
+          </td>
+          <td class="actions">
+            <button type="button" class="danger" onclick="clearParty('${row.party}')">
+              <i class="fa-solid fa-trash"></i> Clear
+            </button>
+          </td>
+        `;
+        tbody.appendChild(tr);
+      });
+
+      // Metrics card
+      const metricRow = document.getElementById("metric-row");
+      metricRow.innerHTML = "";
+
+      const metric1 = document.createElement("div");
+      metric1.className = "metric-item";
+      metric1.innerHTML = `<span>Total Votes Cast</span><span>${total}</span>`;
+      metricRow.appendChild(metric1);
+
+      const metric2 = document.createElement("div");
+      metric2.className = "metric-item";
+      metric2.innerHTML = `<span>Parties Receiving Votes</span><span>${active}</span>`;
+      metricRow.appendChild(metric2);
+
+      const metric3 = document.createElement("div");
+      metric3.className = "metric-item";
+      metric3.innerHTML = `<span>Current Leader</span><span>${leader && leader.votes > 0 ? leader.party : "—"}</span>`;
+      metricRow.appendChild(metric3);
+    }
+
+    // Admin functions
+    function adjustVote(party, delta) {
+      const store = getVotesStore();
+      const key = party;
+      const current = Number(store[key] || 0);
+      let next = current + delta;
+      if (next < 0) next = 0;
+      store[key] = next;
+      saveVotesStore(store);
+      loadAdminDashboard();
+    }
+
+    function clearParty(party) {
+      if (!confirm("Clear all votes for " + party + "?")) return;
+      const store = getVotesStore();
+      delete store[party];
+      saveVotesStore(store);
+      loadAdminDashboard();
+    }
+
+    function resetAllVotesConfirm() {
+      if (!confirm("This will remove all votes for all parties. Continue?")) return;
+      resetAllVotes();
+      loadAdminDashboard();
+    }
+
+    loadAdminDashboard();
+  </script>
+</body>
+</html>
+
+

@@ -1,0 +1,358 @@
+body {
+  font-family: 'Roboto', Arial, sans-serif;
+  background: linear-gradient(120deg, #e3f6fd 0%, #e6f9f0 100%);
+  margin: 0;
+  min-height: 100vh;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  justify-content: flex-start;
+}
+
+.verify-container {
+  width: 100%;
+  max-width: 440px;
+  margin: 0 auto;
+  padding: 2.5rem 1rem 1.5rem 1rem;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+}
+
+.verify-headline {
+  font-size: 1.7rem;
+  font-weight: 700;
+  color: #1976d2;
+  margin-bottom: 2.2rem;
+  text-align: center;
+  letter-spacing: 0.5px;
+}
+
+.verify-options {
+  display: flex;
+  flex-direction: column;
+  gap: 1.3rem;
+  width: 100%;
+  margin-bottom: 2.2rem;
+}
+
+.verify-card {
+  background: #fff;
+  border-radius: 1.1rem;
+  box-shadow: 0 4px 18px rgba(25, 118, 210, 0.10), 0 1.5px 6px rgba(56, 182, 123, 0.08);
+  padding: 1.3rem 1.2rem;
+  display: flex;
+  align-items: center;
+  gap: 1.1rem;
+  cursor: pointer;
+  transition: box-shadow 0.18s, transform 0.18s;
+  border: 2px solid transparent;
+}
+
+.verify-card:hover,
+.verify-card:focus {
+  box-shadow: 0 6px 24px rgba(25, 118, 210, 0.16), 0 2px 8px rgba(56, 182, 123, 0.13);
+  border: 2px solid #38b27b;
+  transform: translateY(-2px) scale(1.02);
+  outline: none;
+}
+
+.verify-icon {
+  font-size: 2.2rem;
+  color: #1976d2;
+  background: #e3f6fd;
+  border-radius: 50%;
+  padding: 0.7rem;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  min-width: 3.2rem;
+  min-height: 3.2rem;
+}
+
+.verify-info {
+  display: flex;
+  flex-direction: column;
+}
+
+.verify-title {
+  font-size: 1.13rem;
+  font-weight: 600;
+  color: #1976d2;
+  margin-bottom: 0.2rem;
+}
+
+.verify-desc {
+  font-size: 0.98rem;
+  color: #38b27b;
+}
+
+.verify-note {
+  margin-top: 1.5rem;
+  font-size: 1rem;
+  color: #1976d2;
+  background: #e3f6fd;
+  border-radius: 0.9rem;
+  padding: 0.8rem 1.1rem;
+  box-shadow: 0 1px 4px rgba(25, 118, 210, 0.06);
+  text-align: center;
+  max-width: 420px;
+}
+
+/* Modal Styles */
+.modal-bg {
+  position: fixed;
+  top: 0;
+  left: 0;
+  right: 0;
+  bottom: 0;
+  background: rgba(25, 118, 210, 0.13);
+  z-index: 1000;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  animation: fadeIn 0.2s;
+}
+
+@keyframes fadeIn {
+  from {
+    opacity: 0;
+  }
+
+  to {
+    opacity: 1;
+  }
+}
+
+.modal {
+  background: #fff;
+  border-radius: 1.2rem;
+  box-shadow: 0 8px 32px rgba(25, 118, 210, 0.18), 0 2px 8px rgba(56, 182, 123, 0.13);
+  padding: 2rem 1.5rem 1.5rem 1.5rem;
+  max-width: 350px;
+  width: 95vw;
+  position: relative;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  animation: popIn 0.2s;
+}
+
+@keyframes popIn {
+  from {
+    transform: scale(0.95);
+    opacity: 0;
+  }
+
+  to {
+    transform: scale(1);
+    opacity: 1;
+  }
+}
+
+.modal-close {
+  position: absolute;
+  top: 1rem;
+  right: 1rem;
+  background: none;
+  border: none;
+  font-size: 1.3rem;
+  color: #1976d2;
+  cursor: pointer;
+}
+
+.modal-title {
+  font-size: 1.2rem;
+  font-weight: 700;
+  color: #1976d2;
+  margin-bottom: 1.1rem;
+  text-align: center;
+}
+
+.modal-content {
+  width: 100%;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  margin-bottom: 1.2rem;
+}
+
+.modal-content input[type="text"],
+.modal-content input[type="number"] {
+  width: 100%;
+  padding: 0.7rem 1rem;
+  border-radius: 0.7rem;
+  border: 1.5px solid #b0bec5;
+  margin-bottom: 1rem;
+  font-size: 1rem;
+  outline: none;
+  transition: border 0.2s;
+}
+
+.modal-content input:focus {
+  border: 1.5px solid #1976d2;
+}
+
+.modal-action-btn {
+  background: linear-gradient(90deg, #1976d2 60%, #38b27b 100%);
+  color: #fff;
+  border: none;
+  border-radius: 2rem;
+  padding: 0.8rem 2rem;
+  font-size: 1.08rem;
+  font-weight: 700;
+  box-shadow: 0 2px 8px rgba(25, 118, 210, 0.10);
+  cursor: pointer;
+  margin-top: 0.5rem;
+  margin-bottom: 0.7rem;
+  transition: background 0.2s, opacity 0.2s;
+  display: flex;
+  align-items: center;
+  gap: 0.7rem;
+}
+
+.modal-success {
+  color: #38b27b;
+  font-weight: 600;
+  font-size: 1.08rem;
+  margin-top: 0.7rem;
+  text-align: center;
+  display: flex;
+  align-items: center;
+  gap: 0.5rem;
+}
+
+.modal-sim-cam,
+.modal-live-cam {
+  width: 120px;
+  height: 90px;
+  background: linear-gradient(135deg, #e3f6fd 60%, #e6f9f0 100%);
+  border: 2px dashed #1976d2;
+  border-radius: 0.7rem;
+  margin-bottom: 1rem;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  color: #b0bec5;
+  font-size: 2.2rem;
+  position: relative;
+  overflow: hidden;
+}
+
+.modal-sim-face-outline {
+  position: absolute;
+  left: 50%;
+  top: 50%;
+  transform: translate(-50%, -50%);
+  font-size: 2.5rem;
+  color: #38b27b;
+  opacity: 0.5;
+  pointer-events: none;
+}
+
+.modal-sim-fingerprint {
+  width: 70px;
+  height: 70px;
+  background: #e3f6fd;
+  border-radius: 50%;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  font-size: 2.5rem;
+  color: #1976d2;
+  margin-bottom: 1rem;
+  border: 2px solid #38b27b;
+}
+
+.modal-live-cam {
+  width: 160px;
+  height: 160px;
+  border-radius: 50%;
+  overflow: hidden;
+  position: relative;
+  background: #000;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  margin-bottom: 1rem;
+  border: 4px solid #d32f2f;
+  margin-left: auto;
+  margin-right: auto;
+}
+
+.modal-live-cam.face-detected {
+  border: 4px solid #38b27b;
+}
+
+.modal-live-cam.face-not-detected {
+  border: 4px solid #d32f2f;
+}
+
+.modal-live-cam video {
+  width: 100%;
+  height: 100%;
+  object-fit: cover;
+  object-position: center;
+  border-radius: 50%;
+  background: #000;
+  display: block;
+  position: absolute;
+  top: 0;
+  left: 0;
+}
+
+.modal-error {
+  color: #d32f2f;
+  font-size: 1rem;
+  margin-top: 0.7rem;
+  text-align: center;
+}
+
+@media (max-width: 600px) {
+  .verify-container {
+    padding: 1.2rem 0.3rem 1rem 0.3rem;
+    max-width: 98vw;
+  }
+
+  .verify-headline {
+    font-size: 1.15rem;
+    margin-bottom: 1.2rem;
+  }
+
+  .verify-card {
+    padding: 1rem 0.7rem;
+    gap: 0.7rem;
+  }
+
+  .verify-icon {
+    font-size: 1.5rem;
+    min-width: 2.2rem;
+    min-height: 2.2rem;
+    padding: 0.4rem;
+  }
+
+  .verify-note {
+    font-size: 0.97rem;
+    padding: 0.6rem 0.5rem;
+  }
+
+  .modal {
+    padding: 1.1rem 0.5rem 1rem 0.5rem;
+    max-width: 98vw;
+  }
+
+  .modal-sim-cam,
+  .modal-live-cam {
+    width: 98vw;
+    max-width: 220px;
+    height: 120px;
+  }
+
+  .modal-live-cam {
+    width: 110px;
+    height: 110px;
+    max-width: 98vw;
+  }
+}
+
+

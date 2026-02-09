@@ -1,0 +1,149 @@
+<!DOCTYPE html>
+<html lang="en">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>Admin Dashboard - Online Election</title>
+    <link rel="stylesheet" href="styles.css" />
+  </head>
+  <body class="layout-admin">
+    <header class="site-header admin-header">
+      <div class="container header-inner">
+        <h1 class="logo">Election Admin Dashboard</h1>
+        <nav class="main-nav">
+          <a href="index.html" class="nav-link">Public Voting</a>
+          <a href="results.html" class="nav-link">Public Results</a>
+          <button id="logoutBtn" class="btn btn-ghost">Logout</button>
+        </nav>
+      </div>
+    </header>
+
+    <main class="container main-content admin-main">
+      <section class="dashboard-grid">
+        <article class="card stat-card">
+          <h3>Total Parties</h3>
+          <p class="stat-value" id="totalParties">0</p>
+        </article>
+        <article class="card stat-card">
+          <h3>Total Votes</h3>
+          <p class="stat-value" id="totalVotes">0</p>
+        </article>
+        <article class="card stat-card">
+          <h3>Election Status</h3>
+          <p class="stat-value" id="electionStatusLabel">Stopped</p>
+          <button id="toggleElectionBtn" class="btn btn-chip"></button>
+        </article>
+        <article class="card stat-card winning-card" id="winningCard">
+          <h3>Winning Party</h3>
+          <p class="stat-value" id="winningPartyName">Not declared</p>
+          <p class="muted" id="winningPartyVotes"></p>
+          <button id="declareResultsBtn" class="btn btn-outline-small">
+            Declare Results
+          </button>
+        </article>
+      </section>
+
+      <section class="layout-split">
+        <article class="card">
+          <div class="card-header">
+            <h3>Manage Parties</h3>
+          </div>
+          <form id="partyForm" class="form-grid">
+            <input type="hidden" id="partyId" />
+            <div class="form-field">
+              <label for="partyName">Party Name</label>
+              <input id="partyName" type="text" required placeholder="Enter party name" />
+            </div>
+            <div class="form-field">
+              <label for="partySymbol">Symbol</label>
+              <input
+                id="partySymbol"
+                type="text"
+                required
+                placeholder="e.g. Lotus, Hand, Star, or emoji"
+              />
+            </div>
+            <div class="form-field">
+              <label for="partyLeader">Leader Name</label>
+              <input id="partyLeader" type="text" required placeholder="Leader full name" />
+            </div>
+            <div class="form-field">
+              <label for="partyCandidate">Candidate Name</label>
+              <input
+                id="partyCandidate"
+                type="text"
+                required
+                placeholder="Candidate for this election"
+              />
+            </div>
+            <div class="form-actions">
+              <button type="submit" class="btn btn-primary" id="savePartyBtn">
+                Add Party
+              </button>
+              <button type="button" class="btn btn-ghost" id="resetPartyFormBtn">
+                Clear
+              </button>
+            </div>
+          </form>
+
+          <div class="table-wrapper">
+            <table class="table" id="partyTable">
+              <thead>
+                <tr>
+                  <th>Name</th>
+                  <th>Symbol</th>
+                  <th>Leader</th>
+                  <th>Candidate</th>
+                  <th>Status</th>
+                  <th>Actions</th>
+                </tr>
+              </thead>
+              <tbody>
+                <!-- Parties rendered here -->
+              </tbody>
+            </table>
+          </div>
+        </article>
+
+        <article class="card">
+          <div class="card-header">
+            <h3>Live Voting Records</h3>
+            <span class="tag tag-soft" id="voteCountTag">0 votes</span>
+          </div>
+          <div class="table-wrapper table-scroll">
+            <table class="table" id="voteTable">
+              <thead>
+                <tr>
+                  <th>Voter</th>
+                  <th>Voter ID</th>
+                  <th>Party</th>
+                  <th>Candidate</th>
+                  <th>Time</th>
+                  <th>Status</th>
+                  <th>Actions</th>
+                </tr>
+              </thead>
+              <tbody>
+                <!-- Votes rendered here -->
+              </tbody>
+            </table>
+          </div>
+        </article>
+      </section>
+    </main>
+
+    <div id="toast" class="toast"></div>
+
+    <footer class="site-footer">
+      <div class="container footer-inner">
+        <span>Admin session active</span>
+        <span class="muted">Changes are instantly visible on public pages.</span>
+      </div>
+    </footer>
+
+    <script src="js/dataStore.js"></script>
+    <script src="js/admin.js"></script>
+  </body>
+</html>
+
+

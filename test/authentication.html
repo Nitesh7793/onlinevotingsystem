@@ -1,0 +1,59 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Voter Verification - Online Voting System</title>
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+  <link href="https://fonts.googleapis.com/css2?family=Roboto:wght@400;700&display=swap" rel="stylesheet">
+  <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
+  <link rel="stylesheet" href="authentication.css">
+</head>
+
+<body>
+  <div class="verify-container">
+    <div class="verify-headline">
+      <i class="fa-solid fa-shield-halved" style="color:#38b27b;margin-right:0.6rem;"></i>
+      Verify Your Identity Before Voting
+    </div>
+    <div class="verify-options">
+      <div class="verify-card" tabindex="0" data-method="aadhaar">
+        <div class="verify-icon"><i class="fa-solid fa-id-card"></i></div>
+        <div class="verify-info">
+          <div class="verify-title">Aadhaar Verification</div>
+          <div class="verify-desc">ID Card + OTP</div>
+        </div>
+      </div>
+      <div class="verify-card" tabindex="0" data-method="face">
+        <div class="verify-icon"><i class="fa-solid fa-camera"></i></div>
+        <div class="verify-info">
+          <div class="verify-title">Face Recognition</div>
+          <div class="verify-desc">Camera + Facial Outline</div>
+        </div>
+      </div>
+      <div class="verify-card" tabindex="0" data-method="fingerprint">
+        <div class="verify-icon"><i class="fa-solid fa-fingerprint"></i></div>
+        <div class="verify-info">
+          <div class="verify-title">Fingerprint Scan</div>
+          <div class="verify-desc">Fingerprint + Scanner</div>
+        </div>
+      </div>
+    </div>
+    <div class="verify-note">
+      <i class="fa-solid fa-lock" style="color:#38b27b;margin-right:0.5rem;"></i>
+      Your information is safe and only used for verification purposes.
+    </div>
+  </div>
+
+  <!-- Modal Root -->
+  <div id="modal-root"></div>
+
+  <script src="votes.js"></script>
+  <script src="authentication.js"></script>
+</body>
+
+</html>
+
+

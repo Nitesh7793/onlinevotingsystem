@@ -1,0 +1,1255 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8" />
+  <title>About Our Online Voting System</title>
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <style>
+    /* -------------- RESET & BASE -------------- */
+    *, *::before, *::after {
+      box-sizing: border-box;
+      margin: 0;
+      padding: 0;
+    }
+    body {
+      font-family: system-ui, -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, sans-serif;
+      color: #f9fafb;
+      background:
+        radial-gradient(circle at 0% 0%, rgba(236, 72, 153, 0.25), transparent 55%),
+        radial-gradient(circle at 100% 0%, rgba(59, 130, 246, 0.25), transparent 55%),
+        radial-gradient(circle at 0% 100%, rgba(34, 197, 94, 0.22), transparent 55%),
+        linear-gradient(135deg, #050816, #020617, #0b1120);
+      background-size: 260% 260%;
+      animation: bgMove 26s ease-in-out infinite;
+      min-height: 100vh;
+      line-height: 1.6;
+      scroll-behavior: smooth;
+      transition: background 0.6s ease, color 0.4s ease;
+    }
+    img {
+      max-width: 100%;
+      display: block;
+    }
+    a {
+      color: inherit;
+      text-decoration: none;
+    }
+    :root {
+      --primary: #a855f7;
+      --primary-soft: rgba(168, 85, 247, 0.25);
+      --accent: #f97316;
+      --bg-glass: rgba(26, 11, 46, 0.88);
+      --bg-glass-soft: rgba(22, 33, 62, 0.78);
+      --border-soft: rgba(168, 85, 247, 0.35);
+      --text-muted: #e9d5ff;
+      --radius-lg: 18px;
+      --shadow-soft: 0 18px 45px rgba(26, 11, 46, 0.95);
+      --transition-fast: 0.25s ease;
+    }
+
+    /* Light theme overrides */
+    body.theme-light {
+      --primary: #2563eb;
+      --primary-soft: rgba(37, 99, 235, 0.16);
+      --accent: #16a34a;
+      --bg-glass: rgba(255, 255, 255, 0.92);
+      --bg-glass-soft: rgba(248, 250, 252, 0.96);
+      --border-soft: rgba(148, 163, 184, 0.55);
+      --text-muted: #4b5563;
+      --shadow-soft: 0 18px 45px rgba(15, 23, 42, 0.25);
+
+      color: #0f172a;
+      background:
+        radial-gradient(circle at 0% 0%, rgba(59, 130, 246, 0.20), transparent 55%),
+        radial-gradient(circle at 100% 0%, rgba(34, 197, 94, 0.20), transparent 55%),
+        radial-gradient(circle at 50% 100%, rgba(251, 191, 36, 0.25), transparent 60%),
+        linear-gradient(135deg, #eff6ff, #e0f2fe, #fefce8);
+      background-size: 220% 220%;
+    }
+
+    /* -------------- LAYOUT -------------- */
+    .page-wrapper {
+      max-width: 1180px;
+      margin: 0 auto;
+      padding: 28px 18px 40px;
+    }
+
+    .top-bar {
+      display: flex;
+      justify-content: flex-end;
+      align-items: center;
+      margin-bottom: 8px;
+      gap: 8px;
+    }
+
+    .theme-toggle-btn {
+      border-radius: 999px;
+      border: 1px solid rgba(148, 163, 184, 0.5);
+      padding: 5px 12px;
+      font-size: 0.78rem;
+      display: inline-flex;
+      align-items: center;
+      gap: 6px;
+      cursor: pointer;
+      color: var(--text-muted);
+      background:
+        radial-gradient(circle at 0% 0%, rgba(236, 72, 153, 0.35), transparent 55%),
+        radial-gradient(circle at 100% 100%, rgba(59, 130, 246, 0.35), transparent 55%),
+        linear-gradient(135deg, #020617, #0b1120);
+      box-shadow: 0 12px 26px rgba(15, 23, 42, 0.9);
+      transition: background var(--transition-fast), border-color var(--transition-fast), transform var(--transition-fast), box-shadow var(--transition-fast);
+    }
+    .theme-toggle-btn span.icon {
+      font-size: 0.9rem;
+    }
+    .theme-toggle-btn span.dot {
+      width: 7px;
+      height: 7px;
+      border-radius: 999px;
+      background: #22c55e;
+      box-shadow: 0 0 10px rgba(34, 197, 94, 0.9);
+    }
+    .theme-toggle-btn:hover {
+      transform: translateY(-1px);
+      border-color: rgba(248, 250, 252, 0.75);
+      box-shadow: 0 16px 34px rgba(15, 23, 42, 0.85);
+    }
+
+    body.theme-light .theme-toggle-btn {
+      background:
+        radial-gradient(circle at 0% 0%, rgba(59, 130, 246, 0.16), transparent 55%),
+        radial-gradient(circle at 100% 100%, rgba(34, 197, 94, 0.16), transparent 55%),
+        linear-gradient(135deg, #ffffff, #eff6ff);
+      border-color: rgba(148, 163, 184, 0.8);
+      color: #4b5563;
+      box-shadow: 0 10px 24px rgba(148, 163, 184, 0.45);
+    }
+
+    body.theme-light .theme-toggle-btn span.dot {
+      background: #f97316;
+      box-shadow: 0 0 10px rgba(249, 115, 22, 0.9);
+    }
+
+    section {
+      margin-bottom: 60px;
+      position: relative;
+      scroll-margin-top: 90px;
+    }
+
+    .section-header {
+      margin-bottom: 20px;
+    }
+
+    .section-label {
+      font-size: 0.78rem;
+      letter-spacing: 0.22em;
+      text-transform: uppercase;
+      color: var(--text-muted);
+      display: inline-flex;
+      align-items: center;
+      gap: 6px;
+    }
+    .section-label::before {
+      content: "";
+      display: inline-block;
+      width: 28px;
+      height: 1px;
+      background: linear-gradient(to right, #a855f7, #f97316, transparent);
+    }
+    .section-title {
+      font-size: clamp(1.4rem, 3vw, 1.8rem);
+      margin-top: 10px;
+      color: #e5e7eb;
+    }
+    .section-subtitle {
+      font-size: 0.95rem;
+      color: var(--text-muted);
+      max-width: 620px;
+      margin-top: 4px;
+    }
+
+    /* -------------- GLASS CARD -------------- */
+    .glass-card {
+      background: linear-gradient(135deg, var(--bg-glass), var(--bg-glass-soft));
+      border-radius: var(--radius-lg);
+      border: 1px solid var(--border-soft);
+      box-shadow: var(--shadow-soft);
+      padding: 22px 22px 22px;
+      backdrop-filter: blur(18px);
+      position: relative;
+      overflow: hidden;
+    }
+    .glass-card::before {
+      content: "";
+      position: absolute;
+      inset: 0;
+      background: radial-gradient(circle at top left, rgba(168, 85, 247, 0.25), rgba(249, 115, 22, 0.15), transparent 60%);
+      opacity: 0.9;
+      pointer-events: none;
+    }
+    .glass-inner {
+      position: relative;
+      z-index: 1;
+    }
+
+    /* -------------- HERO -------------- */
+    .hero {
+      margin-top: 10px;
+    }
+    .hero-grid {
+      display: grid;
+      grid-template-columns: minmax(0, 3fr) minmax(0, 2.4fr);
+      gap: 32px;
+      align-items: center;
+    }
+    .pill {
+      display: inline-flex;
+      align-items: center;
+      gap: 8px;
+      padding: 4px 10px;
+      border-radius: 999px;
+      background: rgba(26, 11, 46, 0.95);
+      border: 1px solid rgba(168, 85, 247, 0.5);
+      color: var(--text-muted);
+      font-size: 0.78rem;
+      margin-bottom: 10px;
+    }
+    .pill-dot {
+      width: 7px;
+      height: 7px;
+      border-radius: 999px;
+      background: radial-gradient(circle, #f97316, #ea580c);
+      box-shadow: 0 0 0 4px rgba(249, 115, 22, 0.35);
+    }
+    .hero-title {
+      font-size: clamp(2.1rem, 4.2vw, 2.8rem);
+      font-weight: 700;
+      letter-spacing: 0.02em;
+      margin-bottom: 10px;
+    }
+    .hero-gradient-text {
+      background: linear-gradient(to right, #a855f7, #ec4899, #f97316);
+      -webkit-background-clip: text;
+      background-clip: text;
+      color: transparent;
+    }
+    .hero-tagline {
+      font-size: 0.98rem;
+      color: var(--text-muted);
+      margin-bottom: 18px;
+    }
+    .hero-tagline span {
+      color: #e5e7eb;
+      font-weight: 500;
+    }
+    .hero-tagline .dot {
+      margin: 0 6px;
+      color: #64748b;
+    }
+
+    .hero-meta {
+      display: flex;
+      flex-wrap: wrap;
+      gap: 12px 20px;
+      font-size: 0.8rem;
+      color: var(--text-muted);
+      margin-bottom: 20px;
+    }
+    .hero-badge {
+      display: inline-flex;
+      align-items: center;
+      gap: 8px;
+      border-radius: 999px;
+      border: 1px solid rgba(168, 85, 247, 0.6);
+      padding: 4px 10px;
+      background: radial-gradient(circle at top left, rgba(249, 115, 22, 0.3), transparent 65%);
+    }
+    .hero-badge span.icon {
+      display: inline-flex;
+      width: 18px;
+      height: 18px;
+      border-radius: 999px;
+      align-items: center;
+      justify-content: center;
+      background: rgba(26, 11, 46, 0.95);
+      font-size: 0.7rem;
+      color: #f97316;
+    }
+    .hero-stats {
+      display: flex;
+      flex-wrap: wrap;
+      gap: 14px 20px;
+      font-size: 0.78rem;
+      color: #9ca3af;
+    }
+    .hero-stats-item span {
+      display: block;
+    }
+    .hero-stats-item span.label {
+      font-size: 0.72rem;
+      text-transform: uppercase;
+      letter-spacing: 0.14em;
+      color: #6b7280;
+    }
+    .hero-stats-item span.value {
+      font-size: 0.9rem;
+      color: #e5e7eb;
+    }
+
+    .hero-actions {
+      display: flex;
+      flex-wrap: wrap;
+      align-items: center;
+      gap: 14px;
+      margin-top: 10px;
+    }
+    .btn-primary {
+      position: relative;
+      overflow: hidden;
+      border: none;
+      outline: none;
+      cursor: pointer;
+      padding: 10px 22px;
+      border-radius: 999px;
+      font-size: 0.92rem;
+      letter-spacing: 0.08em;
+      text-transform: uppercase;
+      font-weight: 600;
+      color: #ffffff;
+      background: linear-gradient(135deg, #a855f7, #ec4899, #f97316);
+      box-shadow: 0 12px 25px rgba(168, 85, 247, 0.6);
+      display: inline-flex;
+      align-items: center;
+      gap: 9px;
+      transition: transform var(--transition-fast), box-shadow var(--transition-fast), filter var(--transition-fast);
+    }
+    .btn-primary span.icon {
+      font-size: 0.95rem;
+      transform: translateX(0);
+      transition: transform var(--transition-fast);
+    }
+    .btn-primary:hover {
+      transform: translateY(-1px) scale(1.01);
+      filter: brightness(1.1);
+      box-shadow: 0 16px 35px rgba(168, 85, 247, 0.75);
+    }
+    .btn-primary:hover span.icon {
+      transform: translateX(3px);
+    }
+    .btn-primary:active {
+      transform: translateY(0px) scale(0.99);
+      box-shadow: 0 8px 18px rgba(15, 23, 42, 0.9);
+    }
+
+    .btn-ghost {
+      border-radius: 999px;
+      padding: 8px 16px;
+      border: 1px solid rgba(168, 85, 247, 0.5);
+      font-size: 0.86rem;
+      color: var(--text-muted);
+      background: radial-gradient(circle at top left, rgba(168, 85, 247, 0.25), rgba(26, 11, 46, 0.98));
+      display: inline-flex;
+      align-items: center;
+      gap: 8px;
+      cursor: pointer;
+      transition: border-color var(--transition-fast), background var(--transition-fast), transform var(--transition-fast);
+    }
+    .btn-ghost .dot {
+      width: 8px;
+      height: 8px;
+      border-radius: 999px;
+      background: #f97316;
+      box-shadow: 0 0 10px rgba(249, 115, 22, 0.9);
+    }
+    .btn-ghost:hover {
+      border-color: rgba(236, 72, 153, 0.8);
+      background: radial-gradient(circle at top left, rgba(168, 85, 247, 0.4), rgba(26, 11, 46, 0.98));
+      transform: translateY(-1px);
+    }
+
+    .hero-visual {
+      position: relative;
+      min-height: 230px;
+    }
+    .hero-orbit {
+      position: absolute;
+      inset: 0;
+      border-radius: 34px;
+      border: 1px solid rgba(168, 85, 247, 0.5);
+      background: radial-gradient(circle at top, rgba(168, 85, 247, 0.25), rgba(26, 11, 46, 0.95));
+      overflow: hidden;
+    }
+    .hero-orbit::before {
+      content: "";
+      position: absolute;
+      inset: -40%;
+      background:
+        radial-gradient(circle at 10% 10%, rgba(168, 85, 247, 0.4), transparent 55%),
+        radial-gradient(circle at 80% 15%, rgba(236, 72, 153, 0.45), transparent 55%),
+        radial-gradient(circle at 50% 90%, rgba(249, 115, 22, 0.45), transparent 55%);
+      opacity: 0.95;
+      filter: blur(8px);
+    }
+    .hero-orbit-inner {
+      position: relative;
+      z-index: 1;
+      padding: 20px 18px;
+      display: flex;
+      flex-direction: column;
+      gap: 16px;
+    }
+    .hero-orbit-badge {
+      display: inline-flex;
+      align-items: center;
+      justify-content: space-between;
+      border-radius: 999px;
+      padding: 7px 10px;
+      background: rgba(26, 11, 46, 0.95);
+      border: 1px solid rgba(168, 85, 247, 0.6);
+      font-size: 0.74rem;
+      color: var(--text-muted);
+      gap: 10px;
+      max-width: 230px;
+    }
+    .hero-orbit-badge span.label {
+      display: inline-flex;
+      align-items: center;
+      gap: 6px;
+    }
+    .hero-orbit-badge span.label span.dot {
+      width: 7px;
+      height: 7px;
+      border-radius: 999px;
+      background: #f97316;
+      box-shadow: 0 0 10px rgba(249, 115, 22, 0.9);
+    }
+    .hero-orbit-badge span.value {
+      color: #e5e7eb;
+      font-weight: 500;
+    }
+
+    .hero-orbit-metrics {
+      display: grid;
+      grid-template-columns: repeat(2, minmax(0, 1fr));
+      gap: 10px;
+      font-size: 0.75rem;
+    }
+    .metric-card {
+      border-radius: 14px;
+      background: rgba(26, 11, 46, 0.95);
+      border: 1px solid rgba(168, 85, 247, 0.4);
+      padding: 10px 10px;
+      display: flex;
+      flex-direction: column;
+      gap: 4px;
+    }
+    .metric-label {
+      font-size: 0.7rem;
+      color: #9ca3af;
+    }
+    .metric-value {
+      font-size: 0.9rem;
+      color: #e5e7eb;
+      font-weight: 600;
+    }
+    .metric-pill {
+      display: inline-flex;
+      align-items: center;
+      gap: 4px;
+      padding: 2px 6px;
+      border-radius: 999px;
+      font-size: 0.68rem;
+      background: rgba(249, 115, 22, 0.25);
+      color: #fed7aa;
+    }
+
+    .hero-orbit-footer {
+      display: flex;
+      justify-content: space-between;
+      align-items: center;
+      margin-top: 4px;
+      font-size: 0.72rem;
+      color: #d1d5db;
+    }
+    .hero-orbit-footer span.secondary {
+      font-size: 0.68rem;
+      color: #9ca3af;
+    }
+
+    /* -------------- GRID UTILS -------------- */
+    .two-column {
+      display: grid;
+      grid-template-columns: minmax(0, 1.5fr) minmax(0, 1.5fr);
+      gap: 26px;
+    }
+    .three-column {
+      display: grid;
+      grid-template-columns: repeat(3, minmax(0, 1fr));
+      gap: 22px;
+    }
+    .four-column {
+      display: grid;
+      grid-template-columns: repeat(4, minmax(0, 1fr));
+      gap: 18px;
+    }
+    @media (max-width: 960px) {
+      .hero-grid,
+      .two-column,
+      .three-column,
+      .four-column {
+        grid-template-columns: minmax(0, 1fr);
+      }
+    }
+    @media (max-width: 640px) {
+      .page-wrapper {
+        padding: 22px 14px 32px;
+      }
+      .glass-card {
+        padding: 18px 16px;
+      }
+    }
+
+    /* -------------- TEXT CONTENT BLOCKS -------------- */
+    .para {
+      font-size: 0.92rem;
+      color: var(--text-muted);
+      margin-bottom: 8px;
+    }
+    .para:last-child {
+      margin-bottom: 0;
+    }
+    .bullet-list {
+      list-style: none;
+      margin-top: 6px;
+    }
+    .bullet-list li {
+      display: flex;
+      align-items: flex-start;
+      gap: 8px;
+      font-size: 0.9rem;
+      color: var(--text-muted);
+      margin-bottom: 4px;
+    }
+    .bullet-icon {
+      width: 6px;
+      height: 6px;
+      margin-top: 6px;
+      border-radius: 999px;
+      background: linear-gradient(to bottom right, #a855f7, #f97316);
+      flex-shrink: 0;
+    }
+
+    /* -------------- FEATURE CARDS -------------- */
+    .feature-card {
+      position: relative;
+      overflow: hidden;
+      border-radius: 16px;
+      background: radial-gradient(circle at top left, rgba(168, 85, 247, 0.25), rgba(26, 11, 46, 0.98));
+      border: 1px solid rgba(168, 85, 247, 0.4);
+      padding: 16px 14px 14px;
+      display: flex;
+      flex-direction: column;
+      gap: 6px;
+      transition: transform var(--transition-fast), box-shadow var(--transition-fast), border-color var(--transition-fast), background var(--transition-fast);
+    }
+    .feature-card::before {
+      content: "";
+      position: absolute;
+      inset: -40%;
+      background: conic-gradient(from 180deg, rgba(168, 85, 247, 0.3), rgba(236, 72, 153, 0.25), rgba(249, 115, 22, 0.22), rgba(168, 85, 247, 0.3));
+      opacity: 0;
+      transition: opacity var(--transition-fast);
+      pointer-events: none;
+    }
+    .feature-card:hover {
+      transform: translateY(-3px);
+      box-shadow: 0 16px 35px rgba(26, 11, 46, 0.95);
+      border-color: rgba(236, 72, 153, 0.8);
+      background: radial-gradient(circle at top left, rgba(168, 85, 247, 0.4), rgba(26, 11, 46, 0.99));
+    }
+    .feature-card:hover::before {
+      opacity: 0.35;
+    }
+    .feature-icon {
+      width: 34px;
+      height: 34px;
+      border-radius: 13px;
+      display: inline-flex;
+      align-items: center;
+      justify-content: center;
+      background: radial-gradient(circle at 30% 10%, #e9d5ff, #7c3aed);
+      color: #faf5ff;
+      font-size: 1.1rem;
+      margin-bottom: 4px;
+    }
+    .feature-title {
+      font-size: 0.98rem;
+      font-weight: 600;
+      color: #e5e7eb;
+    }
+    .feature-desc {
+      font-size: 0.82rem;
+      color: #cbd5f5;
+    }
+
+    /* -------------- TAG PILL LIST -------------- */
+    .pill-list {
+      display: flex;
+      flex-wrap: wrap;
+      gap: 8px;
+      margin-top: 8px;
+    }
+    .pill-item {
+      border-radius: 999px;
+      border: 1px solid rgba(168, 85, 247, 0.5);
+      padding: 4px 10px;
+      font-size: 0.78rem;
+      color: #e9d5ff;
+      background: rgba(26, 11, 46, 0.98);
+    }
+
+    /* -------------- FOOTER -------------- */
+    footer {
+      border-top: 1px solid rgba(168, 85, 247, 0.4);
+      margin-top: 20px;
+      padding-top: 16px;
+      font-size: 0.85rem;
+      color: #c4b5fd;
+      display: flex;
+      flex-wrap: wrap;
+      align-items: center;
+      justify-content: space-between;
+      gap: 10px;
+    }
+    footer span.accent {
+      color: #e5e7eb;
+      font-weight: 500;
+    }
+    footer .note {
+      font-size: 0.8rem;
+      color: #6b7280;
+    }
+
+    /* -------------- FADE-IN ANIMATIONS -------------- */
+    .fade-section {
+      opacity: 0;
+      transform: translateY(24px);
+      transition: opacity 0.7s ease, transform 0.7s ease;
+    }
+    .fade-section.visible {
+      opacity: 1;
+      transform: translateY(0);
+    }
+
+    /* -------------- BACKGROUND ANIMATION -------------- */
+    @keyframes bgMove {
+      0% {
+        background-position: 0% 50%;
+      }
+      50% {
+        background-position: 100% 50%;
+      }
+      100% {
+        background-position: 0% 50%;
+      }
+    }
+
+    /* -------------- BUTTON RIPPLE EFFECT -------------- */
+    .ripple {
+      position: absolute;
+      border-radius: 50%;
+      transform: scale(0);
+      animation: rippleAnim 0.6s linear;
+      background: rgba(236, 72, 153, 0.5);
+      pointer-events: none;
+    }
+    @keyframes rippleAnim {
+      to {
+        transform: scale(4);
+        opacity: 0;
+      }
+    }
+
+    /* -------------- SMALL MEDIA TWEAKS -------------- */
+    @media (max-width: 480px) {
+      .hero-actions {
+        flex-direction: column;
+        align-items: stretch;
+      }
+      .btn-primary,
+      .btn-ghost {
+        justify-content: center;
+        width: 100%;
+      }
+    }
+  </style>
+</head>
+<body>
+  <div class="page-wrapper">
+    <div class="top-bar">
+      <button id="themeToggle" class="theme-toggle-btn" type="button">
+        <span class="icon">🌙</span>
+        <span class="label">Dark mode</span>
+        <span class="dot"></span>
+      </button>
+    </div>
+
+    <!-- ===================== HERO / HEADER ===================== -->
+    <section class="hero fade-section visible" id="top">
+      <div class="glass-card">
+        <div class="glass-inner hero-grid">
+          <!-- Hero Content -->
+          <div>
+            <div class="pill">
+              <span class="pill-dot"></span>
+              <span>About Our Online Voting System</span>
+            </div>
+            <h1 class="hero-title">
+              A <span class="hero-gradient-text">Secure, Transparent & Digital</span> Voting Experience
+            </h1>
+            <p class="hero-tagline">
+              <span>Secure</span><span class="dot">•</span>
+              <span>Transparent</span><span class="dot">•</span>
+              <span>Digital Voting Solution</span>
+            </p>
+
+            <div class="hero-meta">
+              <div class="hero-badge">
+                <span class="icon">✓</span>
+                <span>One person, one vote — powered by encryption.</span>
+              </div>
+              <span>Designed for institutions, governments & academic projects.</span>
+            </div>
+
+            <div class="hero-stats">
+              <div class="hero-stats-item">
+                <span class="label">Core Values</span>
+                <span class="value">Security • Trust • Speed</span>
+              </div>
+              <div class="hero-stats-item">
+                <span class="label">Focus</span>
+                <span class="value">One Nation One Election ready</span>
+              </div>
+            </div>
+
+            <div class="hero-actions">
+              <button class="btn-primary js-scroll-btn" data-target="#about-system">
+                <span>Explore More</span>
+                <span class="icon">↓</span>
+              </button>
+              <button class="btn-ghost js-scroll-btn" data-target="#features">
+                <span class="dot"></span>
+                <span>View Key Features</span>
+              </button>
+            </div>
+          </div>
+
+          <!-- Hero Visual -->
+          <div class="hero-visual">
+            <div class="hero-orbit">
+              <div class="hero-orbit-inner">
+                <div class="hero-orbit-badge">
+                  <span class="label">
+                    <span class="dot"></span>
+                    Live Digital Ballot
+                  </span>
+                  <span class="value">Real-time</span>
+                </div>
+
+                <div class="hero-orbit-metrics">
+                  <div class="metric-card">
+                    <span class="metric-label">Integrity</span>
+                    <span class="metric-value">Encrypted Votes</span>
+                    <span class="metric-pill">End-to-end verified</span>
+                  </div>
+                  <div class="metric-card">
+                    <span class="metric-label">Trust</span>
+                    <span class="metric-value">Tamper-Proof</span>
+                    <span class="metric-pill">Audit-ready logs</span>
+                  </div>
+                  <div class="metric-card">
+                    <span class="metric-label">Speed</span>
+                    <span class="metric-value">Instant Result</span>
+                    <span class="metric-pill">Real-time counting</span>
+                  </div>
+                  <div class="metric-card">
+                    <span class="metric-label">Coverage</span>
+                    <span class="metric-value">Remote Access</span>
+                    <span class="metric-pill">Any device, anywhere</span>
+                  </div>
+                </div>
+
+                <div class="hero-orbit-footer">
+                  <div>
+                    Designed for <span class="secondary">campuses, organizations & elections.</span>
+                  </div>
+                  <div class="secondary">Online Voting System v1.0</div>
+                </div>
+              </div>
+            </div>
+          </div>
+
+        </div>
+      </div>
+    </section>
+
+    <!-- ===================== ABOUT SYSTEM ===================== -->
+    <section id="about-system" class="fade-section">
+      <div class="section-header">
+        <span class="section-label">About System</span>
+        <h2 class="section-title">What is the Online Voting System?</h2>
+        <p class="section-subtitle">
+          A web-based platform that replaces traditional paper ballots with secure, digital voting — accessible from desktops, laptops, or mobiles.
+        </p>
+      </div>
+
+      <div class="glass-card">
+        <div class="glass-inner two-column">
+          <div>
+            <p class="para">
+              Our Online Voting System is engineered to conduct elections electronically in a secure, reliable, and user-friendly way. Voters can authenticate themselves, view approved candidates, and cast their votes in just a few clicks.
+            </p>
+            <p class="para">
+              The system maintains strict privacy so that individual votes remain confidential, while ensuring that every ballot is accurately counted. It is ideal for university elections, corporate decision-making, institutional voting, and large-scale public polls.
+            </p>
+          </div>
+          <div>
+            <h3 class="section-title" style="font-size:1.05rem;margin-bottom:4px;">Benefits of Digital Voting</h3>
+            <ul class="bullet-list">
+              <li>
+                <span class="bullet-icon"></span>
+                <span><strong>Faster Elections</strong> – From casting votes to declaring results, everything happens in minutes instead of days.</span>
+              </li>
+              <li>
+                <span class="bullet-icon"></span>
+                <span><strong>Reduced Costs</strong> – No printing of ballots, manual counting, or physical storage.</span>
+              </li>
+              <li>
+                <span class="bullet-icon"></span>
+                <span><strong>Higher Participation</strong> – Voters can participate remotely using any internet-enabled device.</span>
+              </li>
+              <li>
+                <span class="bullet-icon"></span>
+                <span><strong>Better Transparency</strong> – Clear audit trails, real-time dashboards, and tamper-evident records build trust.</span>
+              </li>
+            </ul>
+          </div>
+        </div>
+      </div>
+    </section>
+
+    <!-- ===================== MISSION & VISION ===================== -->
+    <section class="fade-section" id="mission-vision">
+      <div class="section-header">
+        <span class="section-label">Mission &amp; Vision</span>
+        <h2 class="section-title">Shaping the Future of Digital Elections</h2>
+      </div>
+
+      <div class="glass-card">
+        <div class="glass-inner two-column">
+          <div>
+            <h3 class="section-title" style="font-size:1.02rem;margin-bottom:6px;">Our Mission</h3>
+            <p class="para">
+              To deliver <strong>secure, fast, and transparent elections</strong> through a robust online platform that protects voter identity, ensures data integrity, and simplifies the entire voting lifecycle — from registration to result declaration.
+            </p>
+          </div>
+          <div>
+            <h3 class="section-title" style="font-size:1.02rem;margin-bottom:6px;">Our Vision</h3>
+            <p class="para">
+              To support <strong>One Nation One Election</strong> and other large-scale democratic initiatives by leveraging digital technology that can scale, adapt, and integrate with national and institutional frameworks, making every vote count in real time.
+            </p>
+          </div>
+        </div>
+      </div>
+    </section>
+
+    <!-- ===================== KEY FEATURES ===================== -->
+    <section class="fade-section" id="features">
+      <div class="section-header">
+        <span class="section-label">Key Features</span>
+        <h2 class="section-title">Everything You Need For Smart Elections</h2>
+        <p class="section-subtitle">
+          A modular, card-based architecture that gives administrators full control and voters a seamless experience.
+        </p>
+      </div>
+
+      <div class="three-column">
+        <div class="feature-card">
+          <div class="feature-icon">🔐</div>
+          <div class="feature-title">Secure Login &amp; Authentication</div>
+          <p class="feature-desc">
+            Unique credentials ensure only verified users can access the voting portal. Each session is encrypted and time-bound.
+          </p>
+        </div>
+        <div class="feature-card">
+          <div class="feature-icon">🛠️</div>
+          <div class="feature-title">Admin Panel with Full Control</div>
+          <p class="feature-desc">
+            A dedicated admin dashboard to configure elections, manage roles, monitor activity, and control the entire voting process.
+          </p>
+        </div>
+        <div class="feature-card">
+          <div class="feature-icon">🗳️</div>
+          <div class="feature-title">Candidate &amp; Party Management</div>
+          <p class="feature-desc">
+            Admins can register candidates, define party symbols, allocate positions, and publish candidate details to voters.
+          </p>
+        </div>
+      </div>
+
+      <div style="height:14px;"></div>
+
+      <div class="two-column">
+        <div class="feature-card">
+          <div class="feature-icon">📊</div>
+          <div class="feature-title">Real-Time Vote Counting</div>
+          <p class="feature-desc">
+            Votes are tallied instantly as they are cast, enabling live dashboards and accurate result projections without manual counting.
+          </p>
+        </div>
+        <div class="feature-card">
+          <div class="feature-icon">📣</div>
+          <div class="feature-title">Result Declaration System</div>
+          <p class="feature-desc">
+            Automatically computes winners once voting closes, and publishes results in a clear, visually rich format for all stakeholders.
+          </p>
+        </div>
+      </div>
+    </section>
+
+    <!-- ===================== ADMIN PANEL OVERVIEW ===================== -->
+    <section class="fade-section" id="admin-panel">
+      <div class="section-header">
+        <span class="section-label">Admin Panel</span>
+        <h2 class="section-title">Centralized Control, Simple Management</h2>
+        <p class="section-subtitle">
+          Designed for administrators to configure elections, manage users, and track every vote — all from a single, secure panel.
+        </p>
+      </div>
+
+      <div class="glass-card">
+        <div class="glass-inner two-column">
+          <div>
+            <h3 class="section-title" style="font-size:1.02rem;margin-bottom:6px;">Admin Login &amp; Access</h3>
+            <p class="para">
+              Admins access the system using a <strong>secure username and password</strong>. Optional multi-factor authentication (conceptually) can be integrated for higher security.
+            </p>
+            <ul class="bullet-list">
+              <li>
+                <span class="bullet-icon"></span>
+                <span>Role-based access control so only authorized admins can change sensitive election settings.</span>
+              </li>
+              <li>
+                <span class="bullet-icon"></span>
+                <span>Protected admin routes prevent unauthorized users from entering the control panel.</span>
+              </li>
+            </ul>
+          </div>
+          <div>
+            <h3 class="section-title" style="font-size:1.02rem;margin-bottom:6px;">What Admins Can Do</h3>
+            <ul class="bullet-list">
+              <li>
+                <span class="bullet-icon"></span>
+                <span><strong>Manage Users</strong> – Create, update, or deactivate voters and assign them to specific elections.</span>
+              </li>
+              <li>
+                <span class="bullet-icon"></span>
+                <span><strong>Manage Candidates &amp; Parties</strong> – Register candidates, map them to parties, and assign positions.</span>
+              </li>
+              <li>
+                <span class="bullet-icon"></span>
+                <span><strong>Monitor Voting Activity</strong> – Track <em>who voted and when</em> (without revealing the actual choice) to prevent duplicates and ensure fairness.</span>
+              </li>
+              <li>
+                <span class="bullet-icon"></span>
+                <span><strong>Control Results</strong> – Open/close polls and publish official results once the election window ends.</span>
+              </li>
+            </ul>
+          </div>
+        </div>
+      </div>
+    </section>
+
+    <!-- ===================== SECURITY ===================== -->
+    <section class="fade-section" id="security">
+      <div class="section-header">
+        <span class="section-label">Security</span>
+        <h2 class="section-title">Security at the Heart of Every Vote</h2>
+      </div>
+
+      <div class="glass-card">
+        <div class="glass-inner three-column">
+          <div>
+            <h3 class="section-title" style="font-size:1rem;margin-bottom:8px;">One User, One Vote Policy</h3>
+            <p class="para">
+              Every voter can cast only <strong>one valid vote per election</strong>. Once a vote is recorded, the system automatically locks further attempts from the same user for that election.
+            </p>
+            <ul class="bullet-list">
+              <li>
+                <span class="bullet-icon"></span>
+                <span>Unique user identifiers ensure accurate voter mapping.</span>
+              </li>
+              <li>
+                <span class="bullet-icon"></span>
+                <span>Vote status flags mark who has already voted.</span>
+              </li>
+            </ul>
+          </div>
+          <div>
+            <h3 class="section-title" style="font-size:1rem;margin-bottom:8px;">Data Encryption</h3>
+            <p class="para">
+              Vote data is conceptually <strong>encrypted</strong> during transmission and storage so that votes remain confidential and tamper-resistant.
+            </p>
+            <ul class="bullet-list">
+              <li>
+                <span class="bullet-icon"></span>
+                <span>Secure channels (e.g., HTTPS) protect data in transit.</span>
+              </li>
+              <li>
+                <span class="bullet-icon"></span>
+                <span>Hashed passwords and secure tokens guard user credentials.</span>
+              </li>
+            </ul>
+          </div>
+          <div>
+            <h3 class="section-title" style="font-size:1rem;margin-bottom:8px;">Fraud Prevention Mechanisms</h3>
+            <p class="para">
+              Multiple layers of validation stop suspicious behavior and unauthorized access before it impacts results.
+            </p>
+            <ul class="bullet-list">
+              <li>
+                <span class="bullet-icon"></span>
+                <span>IP/activity logs to review login and voting patterns.</span>
+              </li>
+              <li>
+                <span class="bullet-icon"></span>
+                <span>Audit trails for every action performed by users and admins.</span>
+              </li>
+              <li>
+                <span class="bullet-icon"></span>
+                <span>Optional integration with institution identity systems (conceptually) for stronger verification.</span>
+              </li>
+            </ul>
+          </div>
+        </div>
+      </div>
+    </section>
+
+    <!-- ===================== TECHNOLOGIES USED ===================== -->
+    <section class="fade-section" id="technologies">
+      <div class="section-header">
+        <span class="section-label">Technologies</span>
+        <h2 class="section-title">Technologies Powering the Platform</h2>
+      </div>
+
+      <div class="glass-card">
+        <div class="glass-inner two-column">
+          <div>
+            <h3 class="section-title" style="font-size:1rem;margin-bottom:8px;">Front-End</h3>
+            <p class="para">
+              The user interface is built using <strong>HTML, CSS, and JavaScript</strong>, focusing on responsiveness, accessibility, and smooth animations for a modern experience across devices.
+            </p>
+            <div class="pill-list">
+              <span class="pill-item">Responsive Layouts</span>
+              <span class="pill-item">Card-Based UI</span>
+              <span class="pill-item">Scroll Animations</span>
+            </div>
+          </div>
+          <div>
+            <h3 class="section-title" style="font-size:1rem;margin-bottom:8px;">Backend &amp; Database (Conceptual)</h3>
+            <p class="para">
+              Behind the scenes, the system can use <strong>server-side technologies</strong> (such as Node.js, PHP, or .NET) and a <strong>relational or NoSQL database</strong> (like MySQL, PostgreSQL, or MongoDB) to:
+            </p>
+            <ul class="bullet-list">
+              <li>
+                <span class="bullet-icon"></span>
+                <span>Store users, candidates, and election configurations.</span>
+              </li>
+              <li>
+                <span class="bullet-icon"></span>
+                <span>Record encrypted votes and compute real-time results.</span>
+              </li>
+              <li>
+                <span class="bullet-icon"></span>
+                <span>Maintain logs and audit trails for transparency and analysis.</span>
+              </li>
+            </ul>
+          </div>
+        </div>
+      </div>
+    </section>
+
+    <!-- ===================== WHY CHOOSE THIS SYSTEM ===================== -->
+    <section class="fade-section" id="why-choose">
+      <div class="section-header">
+        <span class="section-label">Why Choose Us</span>
+        <h2 class="section-title">Why This Online Voting System Stands Out</h2>
+      </div>
+
+      <div class="four-column">
+        <div class="feature-card">
+          <div class="feature-icon">⚡</div>
+          <div class="feature-title">Fast</div>
+          <p class="feature-desc">
+            Instant vote recording, real-time counting, and quick result declaration minimize delays and eliminate manual work.
+          </p>
+        </div>
+        <div class="feature-card">
+          <div class="feature-icon">✅</div>
+          <div class="feature-title">Reliable</div>
+          <p class="feature-desc">
+            Robust architecture ensures consistent performance even when many voters participate simultaneously.
+          </p>
+        </div>
+        <div class="feature-card">
+          <div class="feature-icon">🛡️</div>
+          <div class="feature-title">Secure</div>
+          <p class="feature-desc">
+            Authentication, encryption, and fraud-prevention layers work together to protect the integrity of every election.
+          </p>
+        </div>
+        <div class="feature-card">
+          <div class="feature-icon">👌</div>
+          <div class="feature-title">Easy to Use</div>
+          <p class="feature-desc">
+            Clean, guided interfaces make it simple for both voters and admins to navigate, configure, and complete elections.
+          </p>
+        </div>
+      </div>
+    </section>
+
+    <!-- ===================== FOOTER ===================== -->
+    <footer class="fade-section">
+      <div>
+        © <span id="year"></span> Online Voting System. <span class="accent">All Rights Reserved.</span>
+      </div>
+      <div class="note">
+        Developed for <span class="accent">Academic &amp; Real-World Voting Solutions</span>.
+      </div>
+    </footer>
+
+  </div>
+
+  <!-- ===================== JAVASCRIPT: ANIMATIONS & INTERACTIONS ===================== -->
+  <script>
+    // ---------- Year in Footer ----------
+    document.getElementById('year').textContent = new Date().getFullYear();
+
+    // ---------- Theme Toggle (Dark / Light) ----------
+    const body = document.body;
+    const themeToggleBtn = document.getElementById('themeToggle');
+
+    function setTheme(theme) {
+      const isLight = theme === 'light';
+      if (isLight) {
+        body.classList.add('theme-light');
+      } else {
+        body.classList.remove('theme-light');
+      }
+
+      if (themeToggleBtn) {
+        const iconEl = themeToggleBtn.querySelector('.icon');
+        const labelEl = themeToggleBtn.querySelector('.label');
+        if (isLight) {
+          iconEl.textContent = '☀️';
+          labelEl.textContent = 'Light mode';
+        } else {
+          iconEl.textContent = '🌙';
+          labelEl.textContent = 'Dark mode';
+        }
+      }
+
+      try {
+        localStorage.setItem('ovs-theme', theme);
+      } catch (_) {}
+    }
+
+    // Apply saved theme on load (default: dark)
+    (function initTheme() {
+      let saved = 'dark';
+      try {
+        const stored = localStorage.getItem('ovs-theme');
+        if (stored === 'light' || stored === 'dark') {
+          saved = stored;
+        }
+      } catch (_) {}
+      setTheme(saved);
+    })();
+
+    if (themeToggleBtn) {
+      themeToggleBtn.addEventListener('click', () => {
+        const currentIsLight = body.classList.contains('theme-light');
+        setTheme(currentIsLight ? 'dark' : 'light');
+      });
+    }
+
+    // ---------- Smooth Scroll for Buttons ----------
+    const scrollButtons = document.querySelectorAll('.js-scroll-btn');
+    scrollButtons.forEach(btn => {
+      btn.addEventListener('click', () => {
+        const targetSelector = btn.getAttribute('data-target');
+        const target = document.querySelector(targetSelector);
+        if (!target) return;
+        window.scrollTo({
+          top: target.offsetTop - 80,
+          behavior: 'smooth'
+        });
+      });
+    });
+
+    // ---------- Fade-in on Scroll using IntersectionObserver ----------
+    const observerOptions = {
+      root: null,
+      rootMargin: '0px 0px -10% 0px',
+      threshold: 0.15
+    };
+
+    const fadeSections = document.querySelectorAll('.fade-section');
+
+    const onIntersection = (entries, observer) => {
+      entries.forEach(entry => {
+        if (entry.isIntersecting) {
+          entry.target.classList.add('visible');
+          observer.unobserve(entry.target);
+        }
+      });
+    };
+
+    const observer = new IntersectionObserver(onIntersection, observerOptions);
+    fadeSections.forEach(section => {
+      // hero starts already visible; others observe
+      if (!section.id || section.id === 'top') return;
+      observer.observe(section);
+    });
+
+    // ---------- Ripple effect on primary button ----------
+    function createRipple(event) {
+      const button = event.currentTarget;
+      const rect = button.getBoundingClientRect();
+      const ripple = document.createElement('span');
+      const size = Math.max(rect.width, rect.height);
+      const x = event.clientX - rect.left - size / 2;
+      const y = event.clientY - rect.top - size / 2;
+
+      ripple.style.width = ripple.style.height = size + 'px';
+      ripple.style.left = x + 'px';
+      ripple.style.top = y + 'px';
+      ripple.classList.add('ripple');
+
+      // Remove old ripple if exists
+      const existing = button.querySelector('.ripple');
+      if (existing) {
+        existing.remove();
+      }
+      button.appendChild(ripple);
+
+      setTimeout(() => ripple.remove(), 600);
+    }
+
+    const primaryBtn = document.querySelector('.btn-primary');
+    if (primaryBtn) {
+      primaryBtn.addEventListener('click', createRipple);
+    }
+  </script>
+</body>
+</html>

@@ -1,0 +1,351 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>Online Voting System</title>
+  <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.1/css/all.min.css" />
+  <style>
+    * {
+      margin: 0;
+      padding: 0;
+      box-sizing: border-box;
+      font-family: system-ui, -apple-system, BlinkMacSystemFont, "Segoe UI", sans-serif;
+    }
+
+    body {
+      min-height: 100vh;
+      background: radial-gradient(circle at top left, #3b82f6 0, #312e81 40%, #111827 100%);
+      color: #f9fafb;
+      display: flex;
+      flex-direction: column;
+    }
+
+    .top-nav {
+      background: rgba(15, 23, 42, 0.9);
+      border-bottom: 1px solid rgba(148, 163, 184, 0.3);
+      backdrop-filter: blur(10px);
+      padding: 10px 40px;
+      display: flex;
+      align-items: center;
+      justify-content: space-between;
+    }
+
+    .brand {
+      display: flex;
+      align-items: center;
+      gap: 10px;
+      font-weight: 700;
+    }
+
+    .brand span:last-child {
+      font-size: 0.83rem;
+      font-weight: 500;
+      color: #cbd5f5;
+    }
+
+    .nav-links {
+      display: flex;
+      gap: 18px;
+      font-size: 0.9rem;
+    }
+
+    .nav-links a {
+      color: #e5e7eb;
+      text-decoration: none;
+    }
+
+    .nav-actions {
+      display: flex;
+      gap: 10px;
+    }
+
+    .nav-actions a {
+      text-decoration: none;
+      padding: 6px 14px;
+      border-radius: 999px;
+      border: 1px solid rgba(148, 163, 184, 0.8);
+      font-size: 0.8rem;
+      color: #e5e7eb;
+      background: rgba(15, 23, 42, 0.7);
+    }
+
+    .nav-actions a.primary {
+      background: #f97316;
+      border-color: transparent;
+      color: #111827;
+      font-weight: 600;
+    }
+
+    .hero {
+      padding: 30px 16px 10px;
+      text-align: center;
+    }
+
+    .hero-title {
+      font-size: 2rem;
+      font-weight: 800;
+      letter-spacing: 0.04em;
+      margin-bottom: 6px;
+    }
+
+    .hero-sub {
+      font-size: 0.95rem;
+      color: #c7d2fe;
+    }
+
+    .grid-wrapper {
+      flex: 1;
+      padding: 10px 16px 40px;
+      display: flex;
+      justify-content: center;
+      align-items: flex-start;
+    }
+
+    .card-grid {
+      display: grid;
+      grid-template-columns: repeat(3, minmax(0, 220px));
+      gap: 26px;
+      max-width: 1040px;
+      width: 100%;
+      justify-content: center;
+    }
+
+    .party-card {
+      background: radial-gradient(circle at top, rgba(248, 250, 252, 0.07), rgba(15, 23, 42, 0.95));
+      border-radius: 18px;
+      padding: 18px 14px 16px;
+      border: 1px solid rgba(148, 163, 184, 0.5);
+      box-shadow: 0 18px 40px rgba(15, 23, 42, 0.8);
+      text-align: center;
+      position: relative;
+      overflow: hidden;
+    }
+
+    .party-logo {
+      width: 70px;
+      height: 70px;
+      border-radius: 999px;
+      margin: 0 auto 10px;
+      background: radial-gradient(circle at 30% 0, #f97316, #b91c1c);
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      color: #fff;
+      font-size: 2rem;
+      box-shadow: 0 0 0 4px rgba(15, 23, 42, 0.9), 0 14px 30px rgba(15, 23, 42, 0.9);
+    }
+
+    .party-name {
+      font-weight: 700;
+      letter-spacing: 0.08em;
+      margin-bottom: 4px;
+      font-size: 0.95rem;
+    }
+
+    .party-leader {
+      font-size: 0.8rem;
+      color: #9ca3af;
+      margin-bottom: 10px;
+    }
+
+    .vote-count {
+      font-size: 0.78rem;
+      color: #cbd5f5;
+      margin-bottom: 8px;
+    }
+
+    .vote-count span {
+      font-weight: 600;
+      color: #facc15;
+    }
+
+    .vote-btn {
+      border: none;
+      outline: none;
+      padding: 7px 18px;
+      border-radius: 999px;
+      background: linear-gradient(90deg, #22c55e, #16a34a);
+      color: #052e16;
+      font-size: 0.85rem;
+      font-weight: 700;
+      cursor: pointer;
+      box-shadow: 0 10px 22px rgba(22, 163, 74, 0.5);
+      display: inline-flex;
+      align-items: center;
+      gap: 8px;
+    }
+
+    .vote-btn i {
+      font-size: 0.9rem;
+    }
+
+    .vote-btn:hover {
+      filter: brightness(1.05);
+      transform: translateY(-1px);
+    }
+
+    .vote-btn:active {
+      transform: translateY(0);
+      box-shadow: 0 6px 14px rgba(22, 163, 74, 0.5);
+    }
+
+    .footer {
+      text-align: center;
+      font-size: 0.74rem;
+      color: #9ca3af;
+      padding-bottom: 10px;
+    }
+
+    @media (max-width: 960px) {
+      .card-grid {
+        grid-template-columns: repeat(2, minmax(0, 220px));
+      }
+    }
+
+    @media (max-width: 640px) {
+      .top-nav {
+        flex-direction: column;
+        gap: 6px;
+        padding: 10px 16px;
+        align-items: flex-start;
+      }
+
+      .card-grid {
+        grid-template-columns: minmax(0, 220px);
+      }
+    }
+  </style>
+</head>
+
+<body>
+  <header class="top-nav">
+    <div class="brand">
+      <i class="fa-solid fa-landmark-flag"></i>
+      <div>
+        <div>Online Voting System</div>
+        <span>Cast your vote and make your voice heard</span>
+      </div>
+    </div>
+    <nav class="nav-links">
+      <a href="vote.html">Home</a>
+      <a href="results.html">Live Results</a>
+      <a href="adminpanel.html">Admin</a>
+    </nav>
+    <div class="nav-actions">
+      <a href="results.html">View Results</a>
+      <a href="adminpanel.html" class="primary">Admin Login</a>
+    </div>
+  </header>
+
+  <section class="hero">
+    <div class="hero-title">Choose Your Party</div>
+    <p class="hero-sub">हर वोट मायने रखता है – वोट बटन दबाएँ, फिर पहचान सत्यापित करें, और नतीजे तुरंत देखें।</p>
+  </section>
+
+  <main class="grid-wrapper">
+    <div class="card-grid">
+      <!-- BJP -->
+      <article class="party-card">
+        <div class="party-logo">
+          <i class="fa-solid fa-lotus"></i>
+        </div>
+        <div class="party-name">BJP</div>
+        <div class="party-leader">Shri Narendra Modi</div>
+        <div class="vote-count">
+          Current votes: <span data-party-votes="BJP">0</span>
+        </div>
+        <button class="vote-btn" onclick="handleVote('BJP')">
+          <i class="fa-solid fa-check-to-slot"></i> Vote Now
+        </button>
+      </article>
+
+      <!-- RJD -->
+      <article class="party-card">
+        <div class="party-logo" style="background: radial-gradient(circle at 30% 0, #22c55e, #065f46);">
+          <i class="fa-solid fa-tractor"></i>
+        </div>
+        <div class="party-name">RJD</div>
+        <div class="party-leader">Tejashwi Yadav</div>
+        <div class="vote-count">
+          Current votes: <span data-party-votes="RJD">0</span>
+        </div>
+        <button class="vote-btn" onclick="handleVote('RJD')">
+          <i class="fa-solid fa-check-to-slot"></i> Vote Now
+        </button>
+      </article>
+
+      <!-- LJP -->
+      <article class="party-card">
+        <div class="party-logo" style="background: radial-gradient(circle at 30% 0, #0ea5e9, #0369a1);">
+          <i class="fa-solid fa-plane-departure"></i>
+        </div>
+        <div class="party-name">LJP</div>
+        <div class="party-leader">Chirag Paswan</div>
+        <div class="vote-count">
+          Current votes: <span data-party-votes="LJP">0</span>
+        </div>
+        <button class="vote-btn" onclick="handleVote('LJP')">
+          <i class="fa-solid fa-check-to-slot"></i> Vote Now
+        </button>
+      </article>
+
+      <!-- BSP -->
+      <article class="party-card">
+        <div class="party-logo" style="background: radial-gradient(circle at 30% 0, #22c55e, #15803d);">
+          <i class="fa-solid fa-people-group"></i>
+        </div>
+        <div class="party-name">BSP</div>
+        <div class="party-leader">Kanshi Ram</div>
+        <div class="vote-count">
+          Current votes: <span data-party-votes="BSP">0</span>
+        </div>
+        <button class="vote-btn" onclick="handleVote('BSP')">
+          <i class="fa-solid fa-check-to-slot"></i> Vote Now
+        </button>
+      </article>
+
+      <!-- INC -->
+      <article class="party-card">
+        <div class="party-logo" style="background: radial-gradient(circle at 30% 0, #f97316, #b45309);">
+          <i class="fa-solid fa-hand-paper"></i>
+        </div>
+        <div class="party-name">INC</div>
+        <div class="party-leader">Rahul Gandhi</div>
+        <div class="vote-count">
+          Current votes: <span data-party-votes="INC">0</span>
+        </div>
+        <button class="vote-btn" onclick="handleVote('INC')">
+          <i class="fa-solid fa-check-to-slot"></i> Vote Now
+        </button>
+      </article>
+
+      <!-- JAN SURAJ -->
+      <article class="party-card">
+        <div class="party-logo" style="background: radial-gradient(circle at 30% 0, #eab308, #b45309);">
+          <i class="fa-solid fa-landmark"></i>
+        </div>
+        <div class="party-name">JAN SURAJ</div>
+        <div class="party-leader">Shri Prashant Kishor</div>
+        <div class="vote-count">
+          Current votes: <span data-party-votes="JAN SURAJ">0</span>
+        </div>
+        <button class="vote-btn" onclick="handleVote('JAN SURAJ')">
+          <i class="fa-solid fa-check-to-slot"></i> Vote Now
+        </button>
+      </article>
+    </div>
+  </main>
+
+  <div class="footer">
+    © 2024 Online Voting System. All rights reserved.
+  </div>
+
+  <script src="votes.js"></script>
+  <script src="vote.js"></script>
+</body>
+
+</html>
+
+

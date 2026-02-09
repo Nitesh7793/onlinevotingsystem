@@ -1,0 +1,84 @@
+<!DOCTYPE html>
+<html lang="en">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>Online Election Voting System</title>
+    <link rel="stylesheet" href="styles.css" />
+  </head>
+  <body class="layout-user">
+    <header class="site-header">
+      <div class="container header-inner">
+        <h1 class="logo">National E‑Voting Portal</h1>
+        <nav class="main-nav">
+          <a href="index.html" class="nav-link active">Vote</a>
+          <a href="results.html" class="nav-link">Results</a>
+          <!-- <a href="admin-login.html" class="nav-link nav-link-accent">Admin</a> -->
+        </nav>
+      </div>
+    </header>
+
+    <main class="container main-content">
+      <section class="hero">
+        <div class="hero-text">
+          <h2>Cast Your Vote Securely</h2>
+          <p>
+            Participate in the online election. Review the active parties and cast your vote once.
+          </p>
+        </div>
+        <div class="hero-status" id="electionStatusBanner">
+          <!-- Populated by JS -->
+        </div>
+      </section>
+
+      <section class="card voter-form-card">
+        <h3>Voter Information</h3>
+        <p class="muted">
+          Your information is used only to prevent multiple voting. It is visible to the election administrator.
+        </p>
+        <form id="voterInfoForm" class="form-grid">
+          <div class="form-field">
+            <label for="voterName">Full Name</label>
+            <input type="text" id="voterName" required placeholder="Enter your full name" />
+          </div>
+          <div class="form-field">
+            <label for="voterId">Voter ID / Email</label>
+            <input
+              type="text"
+              id="voterId"
+              required
+              placeholder="Enter a unique ID (e.g. Voter ID or email)"
+            />
+          </div>
+        </form>
+      </section>
+
+      <section class="card">
+        <div class="card-header">
+          <h3>Active Parties &amp; Candidates</h3>
+          <span class="tag tag-soft" id="partyCountTag">0 parties</span>
+        </div>
+        <div id="partyList" class="party-list">
+          <!-- Parties rendered here -->
+        </div>
+        <p class="muted" id="noPartiesMessage" style="display: none;">
+          No active parties are available at the moment. Please check back later.
+        </p>
+      </section>
+    </main>
+
+    <div id="toast" class="toast"></div>
+
+    <footer class="site-footer">
+      <div class="container footer-inner">
+        <span>&copy; <span id="year"></span> Online Election Commission</span>
+        <span class="muted">Your vote. Your voice.</span>
+      </div>
+    </footer>
+
+    <script src="js/dataStore.js"></script>
+    <script src="js/user.js"></script>
+  </body>
+</html>
+
+

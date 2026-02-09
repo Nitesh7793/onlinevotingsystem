@@ -1,0 +1,74 @@
+<!DOCTYPE html>
+<html lang="en">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>Election Results - Online Election</title>
+    <link rel="stylesheet" href="result.css" />
+  </head>
+  <body class="layout-user">
+      
+    <div id="navbar">
+       <img id="img1" src="image/logo.jpg" alt="logo" id="logo" height="70px" width="300px">
+        <div id="nav-links">
+        <a href="home.html" style="text-decoration: none;">Home</a>
+        <a href="service.html" style="text-decoration:none;">Services</a>
+        <a href="about.html" style="text-decoration:none;">About us</a>
+        <!-- <a href="sign.html" style="text-decoration:none;">Vote Now</a> -->
+       
+
+        </div class="admin_user">
+        <!-- <a href="sign.html"><div id="div1">User</div></a> -->
+        <a href="admin-login.html"><div id="div2">Admin</div></a>
+       </div>
+
+
+    <header class="site-header">
+      <div class="container header-inner">
+        <h1 class="logo">Election Results</h1>
+        <nav class="main-nav">
+          <a href="index.html" class="nav-link">Vote</a>
+          <a href="results.html" class="nav-link active">Results</a>
+          <!-- <a href="admin-login.html" class="nav-link nav-link-accent">Admin</a> -->
+        </nav>
+      </div>
+    </header>
+
+    <main class="container main-content">
+      <section class="hero">
+        <div class="hero-text">
+          <h2>Live & Declared Results</h2>
+          <p>See the current vote count and declared winner (when available).</p>
+        </div>
+        <div class="hero-status" id="resultsStatusBanner">
+          <!-- populated by JS -->
+        </div>
+      </section>
+
+      <section class="card">
+        <div class="card-header">
+          <h3>Party-wise Vote Summary</h3>
+          <span class="tag tag-soft" id="totalVotesResultsTag">0 total votes</span>
+        </div>
+        <div id="resultsList" class="results-list">
+          <!-- results cards -->
+        </div>
+        <p class="muted" id="noVotesMessage" style="display: none;">
+          No votes have been cast yet. Results will appear here once voting begins.
+        </p>
+      </section>
+    </main>
+
+    <footer class="site-footer">
+      <div class="container footer-inner">
+        <span>&copy; <span id="year"></span> Online Election Commission</span>
+        <span class="muted">Transparent. Real-time. Verifiable.</span>
+      </div>
+    </footer>
+
+    <script src="js/dataStore.js"></script>
+    <script src="js/results.js"></script>
+  </body>
+</html>
+
+

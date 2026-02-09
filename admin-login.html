@@ -1,0 +1,55 @@
+<!DOCTYPE html>
+<html lang="en">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>Admin Login - Online Election</title>
+    <link rel="stylesheet" href="styles.css" />
+  </head>
+  <body class="layout-admin auth-layout">
+    <main class="auth-wrapper">
+      <section class="card auth-card">
+        <h1 class="logo">Election Admin Console</h1>
+        <h2>Admin Sign In</h2>
+        <p class="muted">
+          Restricted access. Only authorized election officers may sign in.
+        </p>
+        <form id="adminLoginForm" class="form-vertical">
+          <div class="form-field">
+            <label for="adminUsername">Username</label>
+            <input
+              type="text"
+              id="adminUsername"
+              autocomplete="username"
+              required
+              placeholder="Enter admin username"
+            />
+          </div>
+          <div class="form-field">
+            <label for="adminPassword">Password</label>
+            <input
+              type="password"
+              id="adminPassword"
+              autocomplete="current-password"
+              required
+              placeholder="Enter admin password"
+            />
+          </div>
+          <button type="submit" class="btn btn-primary btn-block">
+            Sign In
+          </button>
+        </form>
+        <div class="auth-footer">
+          <a href="index.html" class="link-muted">&larr; Back to voting portal</a>
+        </div>teramcodecommander.
+      </section>
+    </main>
+
+    <div id="toast" class="toast"></div>
+
+    <script src="js/dataStore.js"></script>
+    <script src="js/admin-auth.js"></script>
+  </body>
+</html>
+
+

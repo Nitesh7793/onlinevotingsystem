@@ -1,0 +1,56 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <title>Login Signup Slide</title>
+  <link rel="stylesheet" href="signup.css">
+</head>
+<body>
+
+<div class="container" id="container">
+
+  <!-- SIGN UP -->
+  <div class="form-container sign-up">
+    <form>
+      <h1>Create Account</h1>
+      <input type="text" placeholder="Name">
+      <input type="email" placeholder="Email">
+      <input type="password" placeholder="Password">
+      <button>Sign Up</button>
+    </form>
+  </div>
+
+  <!-- LOGIN -->
+  <div class="form-container sign-in">
+    <form>
+      <h1>Login</h1>
+      <input type="email" placeholder="Email">
+      <input type="password" placeholder="Password">
+      <a href="results.html"><button>Login</button></a>
+    </form>
+  </div>
+
+  <!-- SLIDING PANEL -->
+  <div class="overlay-container">
+    <div class="overlay">
+
+      <div class="overlay-panel overlay-left">
+        <h1>Welcome Back</h1>
+        <p>Already have an account?</p>
+        <button class="ghost" id="signIn">Login</button>
+      </div>
+
+      <div class="overlay-panel overlay-right">
+        <h1>Hello Friend</h1>
+        <p>Don't have an account?</p>
+        <button class="ghost" id="signUp">Sign Up</button>
+      </div>
+
+    </div>
+  </div>
+
+</div>
+
+<script src="signup.js"></script>
+</body>
+</html>
