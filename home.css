@@ -283,33 +283,7 @@ a{
     .caption { font-size: 0.98rem; padding: 10px 8px 8px 8px; }
     .arrow { width: 30px; height: 30px; font-size: 1.1rem; }
   }
-/* MEDIUM SIZE MOBILE VIEW */
 
-  @media(max-width : 380px){
-    #nav-links a{
-      display:none; 
-    }
-    #nav-links i{
-      font-size: 26px;
-      color: #504e5a;
-      cursor: pointer;
-      
-    }
-    .about-container{
-      max-height: 800px;
-      overflow: scroll;
-    }
-    .bottom-slide-box{
-      margin-left: 45px;
-    }
-    .hiw-box{
-      max-width: max-content;
-    }
-    .linking{
-      margin-right: 65px;
-    }
-   
-  }
 
 
 
